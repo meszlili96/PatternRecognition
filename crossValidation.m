@@ -1,5 +1,8 @@
 % Double Cross validation
 
+load('oils.mat')
+samples = Data.samples;
+
 [validation, test] = splitData(samples);
 
 % 10 fold validation

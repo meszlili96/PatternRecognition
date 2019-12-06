@@ -1,10 +1,17 @@
-M = length(wavelength);
+
+load('oils.mat')
+
+wavelength = Data.wavelength;
+samples = Data.samples;
+values = Data.values;
+
 N = length(samples);
+M = length(wavelength);
 
 figure()
 for i = 1:N
     % get wavelengths for i_th sample
-    sampleWavelengths = values(:,i);
+    sampleWavelengths = values(i,:);
     plot(wavelength, sampleWavelengths, 'b');
     hold on
 end
