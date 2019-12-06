@@ -1,8 +1,8 @@
 function [mncnData] = mncn(data, means)
 % mean center data
-%   data - data set witn samplesn in rows and variables in columns
+%   data - data set witn samples in rows and variables in columns
 %   means - means to use (for cross validation)
-[N,M] = size(data);
+[N,~] = size(data);
 
 if nargin == 1
   means = mean(data);
