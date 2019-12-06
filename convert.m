@@ -29,8 +29,8 @@ for i=4:size(A,1)
     end
 end
 
-s.wavelength = transpose(wavelength);
-s.values = transpose(values);
-s.samples = samples;
-s.countries = countries;
-s.country = country;
+Data.wavelength = transpose(wavelength);
+Data.values = transpose(values);
+Data.samples = samples;
+Data.countries = countries;
+Data.country = country;
