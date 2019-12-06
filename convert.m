@@ -4,6 +4,7 @@ nrow=size(A,1)-3;
 ncol=size(A,2)-1;
 values=zeros(nrow,ncol);
 wavelength=zeros(nrow,1);
+samples=zeros(ncol,1);
 countries=zeros(ncol,1);
 
 country=unique(A(3,2:end));
@@ -18,6 +19,7 @@ for j=2:size(A,2)
     elseif strcmp(cell2mat(A(3,j)), 'Spain')
         countries(j-1)=4;
     end
+    samples(j-1) = str2double(cell2mat(A(1,j)));
 end
 
 for i=4:size(A,1)
@@ -29,5 +31,6 @@ end
 
 s.wavelength = transpose(wavelength);
 s.values = transpose(values);
+s.samples = samples;
 s.countries = countries;
 s.country = country;
