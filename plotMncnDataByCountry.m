@@ -7,16 +7,16 @@ wavelength = Data.wavelength;
 
 % Greece
 greeceData = dataForCountry(values, countries, 1);
-plotSpectrum(mncn(greeceData), wavelength);
+plotSpectrum(mncn2(greeceData), wavelength);
 
 % Italy
 italyData = dataForCountry(values, countries, 2);
-plotSpectrum(mncn(italyData), wavelength);
+plotSpectrum(mncn2(italyData), wavelength);
 
 % Portugal
 portugalData = dataForCountry(values, countries, 3);
-plotSpectrum(mncn(portugalData), wavelength);
+plotSpectrum(mncn2(portugalData), wavelength);
 
 % Spain
 spainData = dataForCountry(values, countries, 4);
-plotSpectrum(mncn(spainData), wavelength);
+plotSpectrum(mncn2(spainData), wavelength);
