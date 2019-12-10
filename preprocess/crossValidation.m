@@ -45,7 +45,9 @@ for foldIndex = 1:SplitsNumber
     
     testSamples = getAllSamplesIndexes(samples, testSampleNumbers);
     testValues = values(testSamples);
+    testCountries = countries(testSamples);
     % evaluate the performance of classifier
+    
 end
 
 % evaluate on idependent test set

@@ -10,6 +10,8 @@ for i = 1:N
     hold on
 end
 
+xlim([800 1900])
+
 hold off
 end
 
