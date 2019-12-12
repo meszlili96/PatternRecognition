@@ -1,4 +1,4 @@
-function [mncnData] = mncn(data, means)
+function [mncnData, means] = mncn2(data, means)
 % mean center data
 %   data - data set witn samples in rows and variables in columns
 %   means - means to use (for cross validation)

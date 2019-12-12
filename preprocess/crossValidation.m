@@ -7,47 +7,48 @@ values = Data.values;
 
 [validation, test] = splitData(samples, countries);
 
-%find minimum by country
-N = length(validation);
-min = length(validation{1});
-for i = 2:N
-    if length(validation{i}) < min
-        min = length(validation{i});
-    end
-end
+% leave one out cross-validation
+splitsNumber = length(validation);
 
-% to have at least one item by country
-SplitsNumber = min;
-indices = {};
-% by country
-for i = 1:N
-    current_country_val = validation{i};
-    indices{i} = crossvalind('Kfold',current_country_val,SplitsNumber);
-end
-
-% cross ffol validation is in this loop
-for foldIndex = 1:SplitsNumber
+for foldIndex = 1:splitsNumber
     % by country
-    trainSampleNumbers = [];
-    testSampleNumbers = [];
-    for i = 1:N
-        test1 = (indices{i} == foldIndex);
-        train1 =~ test1;
-        testSampleNumbers1 = validation{i}(test1,:);
-        testSampleNumbers = [testSampleNumbers; testSampleNumbers1];
-        trainSampleNumbers1 = validation{i}(train1,:);
-        trainSampleNumbers = [trainSampleNumbers; trainSampleNumbers1];
-    end
+    fprintf('Fold %d from %d \n', foldIndex, splitsNumber);
+    testSampleNumbers = validation(foldIndex);
+    trainSampleNumbers = validation;
+    trainSampleNumbers(foldIndex) = [];
 
     trainSamples = getAllSamplesIndexes(samples, trainSampleNumbers);
     trainValues = values(trainSamples,:);
     trainCountries = countries(trainSamples);
+    fprintf('Train samples\n');
+    fprintf('%.4f ', trainSamples);
+    fprintf('\n');
     
     testSamples = getAllSamplesIndexes(samples, testSampleNumbers);
-    testValues = values(testSamples);
+    testValues = values(testSamples,:);
     testCountries = countries(testSamples);
-    % evaluate the performance of classifier
+    fprintf('Test samples\n');
+    fprintf('%.4f ', testSamples);
+    fprintf('\n');
+    
+    % pre-processing (mean-centering) 
+    [trainValues, trainMeans] = mncn2(trainValues);
+    % apply means calculated for training set to the tets set
+    testValues = mncn2(testValues, trainMeans);
+    
+    % evaluate the performance of classifier for different number of latent
+    % variables
+    
     
 end
 
+% calculate RMSE for different number of latent variables and select an
+% optimal number of latent variables
+
+prompt = 'Please enter the number of latent variables';
+lvNumber = input(prompt);
+
 % evaluate on idependent test set
+testSamples = getAllSamplesIndexes(samples, test);
+testValues = values(testSamples,:);
+testCountries = countries(testSamples);

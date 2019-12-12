@@ -14,8 +14,8 @@ end
 
 % we split data by country to have the same percentage of samples from
 % different countrues in both test and training data sets
-validationSamples = {};
-testSamples = {};
+validationSamples = [];
+testSamples = [];
 countriesCodes = unique(countries);
 
 for i=1:length(countriesCodes)
@@ -25,8 +25,8 @@ for i=1:length(countriesCodes)
     uniqueSamples = unique(countrySammples);
     shuffledUniqueSamples = uniqueSamples(randperm(length(uniqueSamples)));
     divisionBoundary = round(length(uniqueSamples)*(1-testSplit));
-    validationSamples{i} = shuffledUniqueSamples(1:divisionBoundary);
-    testSamples{i} = shuffledUniqueSamples(divisionBoundary+1:end);
+    validationSamples = [validationSamples; shuffledUniqueSamples(1:divisionBoundary)];
+    testSamples = [testSamples; shuffledUniqueSamples(divisionBoundary+1:end)];
 end
 
 validationSet = validationSamples;

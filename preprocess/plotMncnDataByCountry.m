@@ -5,22 +5,24 @@ countries = Data.countries;
 values = Data.values;
 wavelength = Data.wavelength;
 
+mncnValues = mncn2(values);
+
 % Greece
-greeceData = dataForCountry(values, countries, 1);
-plotSpectrum(mncn2(greeceData), wavelength);
+greeceData = dataForCountry(mncnValues, countries, 1);
+plotSpectrum(greeceData, wavelength);
 title('Greece')
 
 % Italy
-italyData = dataForCountry(values, countries, 2);
-plotSpectrum(mncn2(italyData), wavelength);
+italyData = dataForCountry(mncnValues, countries, 2);
+plotSpectrum(italyData, wavelength);
 title('Italy')
 
 % Portugal
-portugalData = dataForCountry(values, countries, 3);
-plotSpectrum(mncn2(portugalData), wavelength);
+portugalData = dataForCountry(mncnValues, countries, 3);
+plotSpectrum(portugalData, wavelength);
 title('Portugal')
 
 % Spain
-spainData = dataForCountry(values, countries, 4);
-plotSpectrum(mncn2(spainData), wavelength);
+spainData = dataForCountry(mncnValues, countries, 4);
+plotSpectrum(spainData, wavelength);
 title('Spain')
