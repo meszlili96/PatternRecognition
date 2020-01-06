@@ -1,5 +1,6 @@
 % Double Cross validation
 
+clear
 load('../data/oils.mat')
 samples = Data.samples;
 countries = Data.countries;
@@ -47,6 +48,7 @@ end
 
 %prompt = 'Please enter the number of latent variables';
 %lvNumber = input(prompt);
+
 
 vars = [210    89   135   171   128   103   248   425];
 %vars = [310   462   136   296   457   533   205   516];

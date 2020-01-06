@@ -6,12 +6,12 @@ countries = Data.countries;
 values = Data.values;
 
 [validation, test] = splitData(samples, countries);
-% evaluate on idependent test set
+% training data set
 trainSamples = getAllSamplesIndexes(samples, validation);
 trainValues = values(trainSamples,:);
 trainCountries = countries(trainSamples);
 
-% evaluate on idependent test set
+% idependent test set
 testSamples = getAllSamplesIndexes(samples, test);
 testValues = values(testSamples,:);
 testCountries = countries(testSamples);
@@ -44,18 +44,16 @@ end
 fprintf('Average random features selection error rate %.4f ', mean(random_error_rates));
 fprintf('\n');
 
-Cycles_num = 5;
+Cycles_num = 100;
 ga_error_rates = zeros(1, Cycles_num);
 features_sets = zeros(Cycles_num,lvs);
 for i=1:Cycles_num
-    N=50; T=100; CR=0.8; MR=0.05;
-    [sFeat,curve]=ga(validation, samples,values,countries, lvs, N, T, CR, MR, 0);
+    N=200; T=35; CR=0.8; MR=0.05;
+    [vars,curve]=ga(validation, samples, values, countries, lvs, N, T, CR, MR, 0);
     
     % Plot convergence curve
     %figure(); plot(1:length(curve),curve); xlabel('Number of Iterations');
     %ylabel('Fitness Value'); title('GA'); grid on;
-    
-    vars = sFeat;
     
     trainValues1 = trainValues(:,vars);
     testValues1 = testValues(:,vars);
@@ -68,8 +66,10 @@ for i=1:Cycles_num
     [ldaclass,err,p,logp,coeff]=classify(testValues1,trainValues1,trainCountries,'linear');
     ga_error_rates(i) = 100*sum(ldaclass~=testCountries)/size(testCountries,1);
     features_sets(i,:) = vars;
-    fprintf('Iteration %.4f error rate %.4f ', i, ga_error_rates(i));
+    fprintf('Cycle %.4f double CV error rate %.4f ', i, ga_error_rates(i));
     fprintf('\n ');
+    save('features.txt','features_sets','-ascii')
+    save('ga_error_rates.txt','ga_error_rates','-ascii')
 end
 
 fprintf('Average GA features selection error rate %.4f ', mean(ga_error_rates));
@@ -91,5 +91,5 @@ end
 save('features_occurences.txt','occurences','-ascii');
 
 [top_features_oc, idx] = sort(occurences,'descend'); top_features = idx(1:10);
-save('top_features.txt','occurences','-ascii');
+save('top_features.txt','top_features','-ascii');
 

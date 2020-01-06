@@ -9,10 +9,9 @@ function [sFeat,curve] = ga(validation,samples,values,countries, lvs, N,T,CR,MR,
 % T:     Maximum number of generations
 % CR:    Crossover rate
 % MR:    Mutation rate
+% plot:  boolean, true - default
 %---Outputs----------------------------------------------------------------
 % sFeat: Selected features
-% Sf:    Selected feature index
-% Nf:    Number of selected features
 % curve: Convergence curve
 %--------------------------------------------------------------------------
 
@@ -60,7 +59,7 @@ while t <= T
       k1=jRouletteWheelSelection(Prob); k2=jRouletteWheelSelection(Prob);
       % Store parents 
       P1=X(k1,:); P2=X(k2,:);
-      % Random select one crossover point
+      % Random select two crossover points
       ind1=randi([1,lvs]); ind2 = ind1;
       while abs(ind1 - ind2)<2
           ind2=randi([1,lvs]);
@@ -69,7 +68,7 @@ while t <= T
       % Single point crossover between 2 parents
       X1z=[P1(1:ind(1)),P2(ind(1)+1:ind(2)),P1(ind(2)+1:lvs)]; 
       X1z = unique(X1z,'stable');
-      X2z=[P2(1:ind(1)),P1(ind(1)+1:ind(2)),P1(ind(2)+1:lvs)];
+      X2z=[P2(1:ind(1)),P1(ind(1)+1:ind(2)),P2(ind(2)+1:lvs)];
       X2z = unique(X2z,'stable');
       z=z+1;
       % if crossover resulted in chromosomes with duplicated values, add

@@ -1,6 +1,13 @@
 function [average_error] = loo_cv(validation,samples,countries,values)
-%   LOO with duplicates handling
-%   used as GA fitness function
+%   as GA fitness function LOO inner-cross validation is used
+%---Inputs-----------------------------------------------------------------
+% validation: validation samles numbers
+% samples: all samples
+% countries: countries codes
+% values: subset of the whole data set based on selected features
+%---Outputs----------------------------------------------------------------
+% average_error: average error
+%--------------------------------------------------------------------------
 
 splitsNumber = length(validation);
 errors_rates = zeros(1, splitsNumber);
@@ -22,6 +29,7 @@ for foldIndex = 1:splitsNumber
     % apply means calculated for training set to the tets set
     testValues = mncn2(testValues, trainMeans);
     
+    % LDA classification
     [ldaclass,err,p,logp,coeff]=classify(testValues,trainValues,trainCountries,'linear');
     errors_rates(foldIndex) = 100*sum(ldaclass~=testCountries)/size(testCountries,1);
 end
