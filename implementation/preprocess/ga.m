@@ -1,8 +1,10 @@
-function [sFeat,curve] = ga(samples,countries,values, lvs, N,T,CR,MR)
+function [sFeat,curve] = ga(validation,samples,values,countries, lvs, N,T,CR,MR, plot)
 %---Inputs-----------------------------------------------------------------
-% feat:  features
-% label: labelling
-% lvs: number of latent variables
+% validation: validation subset
+% samples: training samples
+% countries: known countries codes
+% values: training data set
+% lvs: number of latent variables to use in chromosomes
 % N:     Polulation size
 % T:     Maximum number of generations
 % CR:    Crossover rate
@@ -14,9 +16,15 @@ function [sFeat,curve] = ga(samples,countries,values, lvs, N,T,CR,MR)
 % curve: Convergence curve
 %--------------------------------------------------------------------------
 
+if nargin == 8
+  plot = 1;
+end
+
+% difference rate to terminate when error reached 0
+diff_rate = 0.01;
 % Number of dimensions
 D=size(values,2);
-% Initial population
+% Initial population. N randomly generated subsets of features of lvs size 
 X=[]; fit=zeros(1,N);
 for i=1:N
     Xn = [];
@@ -30,15 +38,17 @@ for i=1:N
 end
 % Fitness 
 for i=1:N
-  fit(i)=lda_error(samples,countries,values,X(i,:));
+  fit(i)=lda_error(validation,samples,countries,values,X(i,:));
 end
 % Pre
 curve=inf; t=1; 
-figure(1); clf; axis([1 100 0 T]); xlabel('Number of Iterations');
-ylabel('Fitness Value'); title('Convergence Curve'); grid on;
+if plot
+    figure(1); clf; axis([1 100 0 T]); xlabel('Number of Iterations');
+    ylabel('Fitness Value'); title('Convergence Curve'); grid on;
+end
 %---Generations start------------------------------------------------------
 while t <= T
-	% Convert error to accuracy (inverse of fitness)
+  % Convert error to accuracy (inverse of fitness)
   Ifit=1-fit;
   % Get probability
   Prob=Ifit/sum(Ifit);
@@ -51,15 +61,19 @@ while t <= T
       % Store parents 
       P1=X(k1,:); P2=X(k2,:);
       % Random select one crossover point
-      ind=randi([1,lvs]);
+      ind1=randi([1,lvs]); ind2 = ind1;
+      while abs(ind1 - ind2)<2
+          ind2=randi([1,lvs]);
+      end
+      ind = sort([ind1, ind2]);
       % Single point crossover between 2 parents
-      X1z=[P1(1:ind),P2(ind+1:lvs)]; 
+      X1z=[P1(1:ind(1)),P2(ind(1)+1:ind(2)),P1(ind(2)+1:lvs)]; 
       X1z = unique(X1z,'stable');
-      X2z=[P2(1:ind),P1(ind+1:lvs)]; z=z+1; 
+      X2z=[P2(1:ind(1)),P1(ind(1)+1:ind(2)),P1(ind(2)+1:lvs)];
       X2z = unique(X2z,'stable');
-      
+      z=z+1;
       % if crossover resulted in chromosomes with duplicated values, add
-      % random ferture numbers to make chromosomes length = lvs
+      % random feature numbers to make chromosomes length = lvs
       while length(X1z) < lvs
         feature_num = randi([1 D],1,1);
         if ~ismember(feature_num,X1z)
@@ -94,7 +108,7 @@ while t <= T
       end
     end
     % Fitness 
-    Fnew(i)=lda_error(samples,countries,values,Xnew(i,:));
+    Fnew(i)=lda_error(validation,samples,countries,values,Xnew(i,:));
   end 
   % Merge population
   XX=[X;Xnew]; FF=[fit,Fnew]; 
@@ -105,8 +119,15 @@ while t <= T
   fprintf('Iteration %.4f best error rate %.4f ', t, fitG);
   fprintf('\n ');
   % Plot convergence curve
-  pause(0.000000001); hold on;
-  CG=plot(t,fitG,'Color','r','Marker','.'); set(CG,'MarkerSize',5);
+  if plot
+    pause(0.000000001); hold on;
+    CG=plot(t,fitG,'Color','r','Marker','.'); set(CG,'MarkerSize',5);
+  end
+  if curve(t) < diff_rate
+      fprintf('Converged');
+      fprintf('\n ');
+      break;
+  end
   t=t+1;
 end
 % Select features based on selected index

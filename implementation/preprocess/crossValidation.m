@@ -48,8 +48,8 @@ end
 %prompt = 'Please enter the number of latent variables';
 %lvNumber = input(prompt);
 
-vars = [89 104 172 208 259 285 426 450];
-vars = [310   462   136   296   457   533   205   516];
+vars = [210    89   135   171   128   103   248   425];
+%vars = [310   462   136   296   457   533   205   516];
 
 % evaluate on idependent test set
 trainSamples = getAllSamplesIndexes(samples, validation);
