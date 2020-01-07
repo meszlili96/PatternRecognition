@@ -123,7 +123,7 @@ while t <= T
     CG=plot(t,fitG,'Color','r','Marker','.'); set(CG,'MarkerSize',5);
   end
   if curve(t) < diff_rate
-      fprintf('Converged');
+      fprintf('Converged, Iteration %.4f', t);
       fprintf('\n ');
       break;
   end

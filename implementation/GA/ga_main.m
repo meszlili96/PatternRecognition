@@ -45,10 +45,10 @@ fprintf('Average random features selection error rate %.4f ', mean(random_error_
 fprintf('\n');
 
 Cycles_num = 100;
+N=50; T=50; CR=0.8; MR=0.05;
 ga_error_rates = zeros(1, Cycles_num);
 features_sets = zeros(Cycles_num,lvs);
 for i=1:Cycles_num
-    N=200; T=35; CR=0.8; MR=0.05;
     [vars,curve]=ga(validation, samples, values, countries, lvs, N, T, CR, MR, 0);
     
     % Plot convergence curve
