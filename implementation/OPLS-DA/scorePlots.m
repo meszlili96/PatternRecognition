@@ -5,10 +5,11 @@
 [values_mncn, values_mean]=mncn(values);
 
 countriesUnique=unique(countries);
+LV=4;
 
 for i=1:length(countriesUnique)
     country=double(countries==countriesUnique(i));
-    [w,T,p,q,T_o,P_o,W_o] = OPLS(values_mncn',country,4);
+    [w,T,p,q,T_o,P_o,W_o] = OPLS(values_mncn',country,LV);
     figure
     gscatter(T,T_o(:,1),country);
     legend({char(Data.country(i)),'Rest'});
