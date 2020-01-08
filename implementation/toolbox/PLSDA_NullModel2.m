@@ -111,6 +111,6 @@ if output==1
     plot([errorTOT_Real, errorTOT_Real], [0, yl(2)], 'r-');
     xlabel('fraction of errors')
     ylabel('# of models')
-    suptitle('Error Histogram')
+    title('Error Histogram')
     eval(['title(''p= ' num2str(p_model) ' permutations as good as original. Red: error fraction real model'')'])
 end
