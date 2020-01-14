@@ -54,7 +54,15 @@ for m=1:M
 end
 
 means = mean(solution_mean_errors);
+[means, idx] = sort(means);
+best_solution = features_sets(idx(1),:);
 
 fprintf('Mean top GA solutions 4-fold CV average error \n');
 disp(means)
+
+fprintf('Best solution \n');
+disp(best_solution)
+
+save('best_solution.txt','best_solution','-ascii');
+
 

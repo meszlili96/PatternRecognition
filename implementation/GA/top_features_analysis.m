@@ -1,16 +1,51 @@
 % top features analysis
 clear
 load('../data/oils.mat')
-wavelengths = Data.wavelength;
+countries = Data.countries;
+values = Data.values;
+wavelength = Data.wavelength;
 
-top_features = load('top_features.txt', '-ASCII');
-occurences = load('features_occurences.txt', '-ASCII');
+mncnValues = mncn2(values);
+best_solution = load('best_solution.txt', '-ASCII');
+N = length(best_solution);
 
-top_wavelengths = wavelengths(top_features);
+% Greece
+greeceData = dataForCountry(mncnValues, countries, 1);
+plotSpectrum(mean(greeceData), wavelength);
+title('Greece')
+xlabel('Wavelengths numbers');
+ylabel('Mean absorbance units');
+for i=1:N
+    xline(wavelength(best_solution(i)),'--k');
+end
 
-fprintf('Top wavelengths \n');
-disp(top_wavelengths);
+% Italy
+italyData = dataForCountry(mncnValues, countries, 2);
+plotSpectrum(mean(italyData), wavelength);
+title('Italy')
+xlabel('Wavelengths numbers');
+ylabel('Mean absorbance units');
+for i=1:N
+    xline(wavelength(best_solution(i)),'--k');
+end
 
-top_features_occurences = occurences(top_features);
-fprintf('Top wavelengths occurences \n');
-disp(top_features_occurences);
+% Portugal
+portugalData = dataForCountry(mncnValues, countries, 3);
+plotSpectrum(mean(portugalData), wavelength);
+title('Portugal')
+xlabel('Wavelengths numbers');
+ylabel('Mean absorbance units');
+for i=1:N
+    xline(wavelength(best_solution(i)),'--k');
+end
+
+% Spain
+spainData = dataForCountry(mncnValues, countries, 4);
+plotSpectrum(mean(spainData), wavelength);
+title('Spain')
+xlabel('Wavelengths numbers');
+ylabel('Mean absorbance units');
+for i=1:N
+    xline(wavelength(best_solution(i)),'--k');
+end
+
