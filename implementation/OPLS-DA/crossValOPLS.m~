@@ -16,5 +16,5 @@ for i=1:N
     end
     scorePlots(values(:,entireTestSet(1,:)),country(entireTestSet(1,:)),values(:,entireValidSet(1,:)),country(entireValidSet(1,:)),LV,char(Data.country(i)));
     %max number of LVs is 8
-    [MissClass_2cv(i),Q2_2cv(i),RP(i),T_final]=OPLSDA_2cv2(values',country,LV,entireTestSet,0);
+    [MissClass_2cv(i),Q2_2cv(i),RP(i),T_final]=OPLSDA_2cv2(wavelengthValues2',country,LV,entireTestSet,0);
 end
