@@ -1,4 +1,5 @@
-
+% plots raw spectra of all samples
+clear;
 load('../data/oils.mat')
 
 wavelength = Data.wavelength;

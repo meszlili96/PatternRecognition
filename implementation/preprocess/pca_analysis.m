@@ -1,4 +1,4 @@
-clear
+clear;
 load('../data/oils.mat')
 samples = Data.samples;
 countries = Data.countries;

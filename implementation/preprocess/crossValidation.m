@@ -1,6 +1,6 @@
 % Double Cross validation
-
-clear
+% template code, its pieces are used in other files
+clear;
 load('../data/oils.mat')
 samples = Data.samples;
 countries = Data.countries;
@@ -49,10 +49,6 @@ end
 %prompt = 'Please enter the number of latent variables';
 %lvNumber = input(prompt);
 
-
-vars = [210    89   135   171   128   103   248   425];
-%vars = [310   462   136   296   457   533   205   516];
-
 % evaluate on idependent test set
 trainSamples = getAllSamplesIndexes(samples, validation);
 trainValues1 = values(trainSamples,:);
@@ -66,10 +62,4 @@ testCountries = countries(testSamples);
 trainValues = trainValues1(:,vars);
 testValues = testValues1(:,vars);
 
-% pre-processing (mean-centering) 
-[trainValues, trainMeans] = mncn2(trainValues);
-% apply means calculated for training set to the tets set
-testValues = mncn2(testValues, trainMeans);
-
-[ldaclass,err,p,logp,coeff]=classify(testValues,trainValues,trainCountries,'linear');
-disp(['LDA error rate is ' int2str(100*sum(ldaclass~=testCountries)/size(testCountries,1))])
+% perform evaluation here

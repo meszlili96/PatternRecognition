@@ -1,4 +1,5 @@
-
+% plots mean-centred spectra by country
+clear;
 load('../data/oils.mat')
 
 countries = Data.countries;

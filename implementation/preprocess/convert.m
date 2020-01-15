@@ -1,4 +1,6 @@
-A = readtable('FTIR_Spectra_olive_oils.csv');
+% a script to convert the data in .csv fromat to matlab format
+clear;
+A = readtable('../data/FTIR_Spectra_olive_oils.csv');
 A = A{:,:};
 nrow=size(A,1)-3;
 ncol=size(A,2)-1;
