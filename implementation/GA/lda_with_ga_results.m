@@ -1,14 +1,17 @@
-% load GA results
-clear
+% evaluate zero error rate GA solutions
+clear;
+addpath '../preprocess';
 load('../data/oils.mat')
 samples = Data.samples;
 countries = Data.countries;
 values = Data.values;
 wavelengths = Data.wavelength;
 
+% load GA results
 features_sets = load('features.txt', '-ASCII');
 
-% zero loo cv error solutions number
+% zero loo cv error solutions number. Should be changed to the value
+% obtained in zero_error_rate in ga_main
 D = 24;
 % runs to evaluate solutions
 M = 10;
@@ -60,9 +63,9 @@ best_solution = features_sets(idx(1),:);
 fprintf('Mean top GA solutions 4-fold CV average error \n');
 disp(means)
 
+% Save the best solution
 fprintf('Best solution \n');
 disp(best_solution)
-
 save('best_solution.txt','best_solution','-ascii');
 
 

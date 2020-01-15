@@ -39,7 +39,7 @@ end
 for i=1:N
   fit(i)=lda_error(validation,samples,countries,values,X(i,:));
 end
-% Pre
+
 curve=inf; t=1; 
 if plot
     figure(1); clf; axis([1 100 0 T]); xlabel('Number of Iterations');
@@ -65,7 +65,7 @@ while t <= T
           ind2=randi([1,lvs]);
       end
       ind = sort([ind1, ind2]);
-      % Single point crossover between 2 parents
+      % Two points crossover between 2 parents
       X1z=[P1(1:ind(1)),P2(ind(1)+1:ind(2)),P1(ind(2)+1:lvs)]; 
       X1z = unique(X1z,'stable');
       X2z=[P2(1:ind(1)),P1(ind(1)+1:ind(2)),P2(ind(2)+1:lvs)];
@@ -98,6 +98,7 @@ while t <= T
     for d=1:lvs
       if rand() <= MR
         % Mutate by addition of a random number in [-10, 10] interval
+        % Checking that variable number is not outside of a valid interval
         cand = -1;
         while cand < 1 || cand > D || ismember(cand, Xnew(i,:))
             shift = randi([-10 10],1,1);

@@ -1,5 +1,6 @@
-% top features analysis
-clear
+% best solution analysis
+clear;
+addpath '../preprocess';
 load('../data/oils.mat')
 countries = Data.countries;
 values = Data.values;

@@ -19,8 +19,7 @@ for k=1:folds_number
     folds{k}.train = [];
     folds{k}.test = [];
 end
-%validationSamples = [];
-%testSamples = [];
+
 countriesCodes = unique(countries);
 
 for i=1:length(countriesCodes)

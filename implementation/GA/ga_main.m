@@ -1,5 +1,7 @@
-
-clear
+% perfoms specified number of GA runs, prints statistics and saves the
+% results
+clear;
+addpath '../preprocess';
 load('../data/oils.mat')
 samples = Data.samples;
 countries = Data.countries;
@@ -44,6 +46,7 @@ end
 fprintf('Average random features selection error rate %.4f ', mean(random_error_rates));
 fprintf('\n');
 
+% Set up the GA parameters
 Cycles_num = 100;
 N=50; T=50; CR=0.8; MR=0.05;
 ga_error_rates = zeros(1, Cycles_num);
@@ -68,13 +71,16 @@ for i=1:Cycles_num
     features_sets(i,:) = vars;
     fprintf('Cycle %.4f double CV error rate %.4f ', i, ga_error_rates(i));
     fprintf('\n ');
+    % save after each run not to lose the results if process is terminated
     save('features.txt','features_sets','-ascii')
     save('ga_error_rates.txt','ga_error_rates','-ascii')
 end
 
+% print the results and save on the disk
 fprintf('Average GA features selection error rate %.4f ', mean(ga_error_rates));
 fprintf('\n');
 
+% sort error rates and obtained solutions (features_sets) by error rate in ascending order
 [ga_error_rates,idx]=sort(ga_error_rates);
 features_sets = features_sets(idx,:);
 
